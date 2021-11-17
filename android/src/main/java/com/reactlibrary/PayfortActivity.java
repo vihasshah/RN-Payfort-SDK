@@ -1,8 +1,11 @@
 package com.reactlibrary;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
@@ -36,6 +39,7 @@ public class PayfortActivity extends Activity {
             customerEmail, currency, amount, merchantReference, customerName, customerIp, paymentOption, orderDescription,
             responsePhrase, sdkToken;
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +48,12 @@ public class PayfortActivity extends Activity {
         parseData();
 
         fortCallback = FortCallback.Factory.create();
-        deviceId = FortSdk.getDeviceId(PayfortActivity.this);
+        // getting ANDROID_ID for api level 30 and more as imei number fetch throws error
+        if(Build.VERSION.SDK_INT >= 29){
+            deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        }else {
+            deviceId = FortSdk.getDeviceId(PayfortActivity.this);
+        }
 
         startFortRequest(sdkToken);
     }
