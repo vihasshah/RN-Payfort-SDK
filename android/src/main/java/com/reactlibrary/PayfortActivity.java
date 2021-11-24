@@ -49,12 +49,9 @@ public class PayfortActivity extends Activity {
 
         fortCallback = FortCallback.Factory.create();
         // getting ANDROID_ID for api level 30 and more as imei number fetch throws error
-        if(Build.VERSION.SDK_INT >= 29){
-            deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        }else {
-            deviceId = FortSdk.getDeviceId(PayfortActivity.this);
-        }
-
+        
+        deviceId = FortSdk.getDeviceId(PayfortActivity.this);
+        
         startFortRequest(sdkToken);
     }
 

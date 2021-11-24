@@ -4,6 +4,7 @@ package com.reactlibrary;
 import android.content.Intent;
 import android.provider.Settings;
 import android.util.Log;
+import android.os.Build;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -31,7 +32,11 @@ public class RNPayfortSdkModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   void getDeviceID(Promise p) {
-     p.resolve(FortSdk.getDeviceId(reactContext));
+     String deviceId;
+
+            deviceId = FortSdk.getDeviceId(reactContext);
+        
+        p.resolve(deviceId);
   }
 
   @ReactMethod
